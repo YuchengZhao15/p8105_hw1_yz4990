@@ -13,7 +13,7 @@ library("tidyverse")
 ```
 
 
-Load the dataset "penguins," rename it to "penguins_df," and clean the column names.
+**Load the dataset "penguins," rename it to "penguins_df," and clean the column names.**
 ```{r}
 data("penguins", package = "palmerpenguins")
 penguins_df = penguins |> 
@@ -21,7 +21,7 @@ penguins_df = penguins |>
 ```
 
 
-Summarize the data and get the variable names and size of the dataset.
+**Summarize the data and get the variable names and size of the dataset**
 ```{r}
 var_names = names(penguins_df)
 col_number = ncol(penguins_df)
@@ -29,23 +29,41 @@ row_number = nrow(penguins_df)
 
 summary(penguins_df)
 ```
-Here is a summary of the dataset penguins. The dataset has `r col_number` variables, which are: `r var_names`. The size of the data consists of `r col_number` columns and `r row_number` rows. The rows with 'NA' values are removed latter. 
 
 
-Check the first six rows of the dataset.
+**Delete rows with NA values, get mean flipper length**
+```{r}
+penguins_df = drop_na(penguins_df)
+
+unique_species = unique(penguins_df[["species"]])
+unique_island = unique(penguins_df[["island"]])
+unique_sex = unique(penguins_df[["sex"]])
+unique_year = unique(penguins_df[["year"]])
+
+fl_mean = mean(penguins_df[["flipper_length_mm"]])
+```
+Here is a short description of the penguins dataset and its variables:
+
+1. species: The species of penguins in the dataset. There are `r length(unique_species)` unique species, which are `r unique_species`. 
+1. island: Islands that the penguins are from. There are `r length(unique_island)` unique islands, which are `r unique_island`. 
+1. bill_length_mm: Bill length of penguins in mm. The range of this variable is [`r range(penguins_df[["bill_length_mm"]])`].
+1. flipper_length_mm: Flipper length of penguins in mm. The range of this variable is [`r range(penguins_df[["flipper_length_mm"]])`].
+1. body_mass_g: Body mass of the penguins in g. The range of this variable is [`r range(penguins_df[["body_mass_g"]])`].
+1. sex: Sex of the penguins. There are `r length(unique_sex)` sex among the penguins, being `r unique_sex`.
+1. year: Years when the data is collected. The data are collected in `r length(unique_year)` years, including `r unique_year`.
+
+The dataset has `r col_number` variables, which are: `r var_names`. The size of the data consists of `r col_number` columns and `r row_number` rows. The rows with 'NA' values are removed latter. 
+
+The mean flipper length of the penguins is `r fl_mean`mm.
+
+**Check the first six rows of the dataset.**
 ```{r}
 head(penguins_df)
 ```
 
 
-Delete rows with NA values and calculate the mean of flipper length.
-```{r}
-penguins_df = drop_na(penguins_df)
-fl_mean = mean(penguins_df[["flipper_length_mm"]])
-```
-The mean flipper length in mm of the penguins is `r fl_mean`. 
 
-Make and save the scatter plot.
+**Make and save the scatter plot.**
 ```{r}
 ggplot(penguins_df, aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point(aes(color = factor(species))) + 
