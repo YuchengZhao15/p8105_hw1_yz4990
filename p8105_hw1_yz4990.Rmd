@@ -21,32 +21,29 @@ penguins_df = penguins |>
 ```
 
 
-Check the first six rows of the dataset
+Summarize the data and get the variable names and size of the dataset.
+```{r}
+var_names = names(penguins_df)
+col_number = ncol(penguins_df)
+row_number = nrow(penguins_df)
+
+summary(penguins_df)
+```
+Here is a summary of the dataset penguins. The dataset has `r col_number` variables, which are: `r var_names`. The size of the data consists of `r col_number` columns and `r row_number` rows. The rows with 'NA' values are removed latter. 
+
+
+Check the first six rows of the dataset.
 ```{r}
 head(penguins_df)
 ```
 
 
-Get the variable names and size of the dataset.
-```{r}
-var_names = names(penguins_df)
-col_number = ncol(penguins_df)
-row_number = nrow(penguins_df)
-```
-
-
-Delete rows with NA values and summary the data.
+Delete rows with NA values and calculate the mean of flipper length.
 ```{r}
 penguins_df = drop_na(penguins_df)
-summary(penguins_df)
-```
-
-
-Calculate the mean of flipper length.
-```{r}
 fl_mean = mean(penguins_df[["flipper_length_mm"]])
 ```
-
+The mean flipper length in mm of the penguins is `r fl_mean`. 
 
 Make and save the scatter plot.
 ```{r}
@@ -64,12 +61,3 @@ ggsave("scatter_plot.pdf", height = 4, width = 6)
 
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
