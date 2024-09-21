@@ -5,36 +5,57 @@ date: "2024-09-21"
 output: html_document
 ---
 
-## Load packages
-```{r}
-library("palmerpenguins")
-library("tidyverse")
-
-```
-
-
 
 ## Problem 1
 ```{r}
-data("penguins", package = "palmerpenguins")
+library("palmerpenguins")
+library("tidyverse")
+```
 
+
+Load the dataset "penguins," rename it to "penguins_df," and clean the column names.
+```{r}
+data("penguins", package = "palmerpenguins")
 penguins_df = penguins |> 
   janitor::clean_names()
+```
 
+
+Check the first six rows of the dataset
+```{r}
 head(penguins_df)
+```
 
+
+Get the variable names and size of the dataset.
+```{r}
 var_names = names(penguins_df)
 col_number = ncol(penguins_df)
 row_number = nrow(penguins_df)
+```
 
+
+Delete rows with NA values and summary the data.
+```{r}
 penguins_df = drop_na(penguins_df)
-fl_mean = mean(penguins_df[["flipper_length_mm"]])
+summary(penguins_df)
+```
 
+
+Calculate the mean of flipper length.
+```{r}
+fl_mean = mean(penguins_df[["flipper_length_mm"]])
+```
+
+
+Make and save the scatter plot.
+```{r}
 ggplot(penguins_df, aes(x = bill_length_mm, y = flipper_length_mm)) +
   geom_point(aes(color = factor(species))) + 
-  labs(x = "Bill Length mm", y = "Filpper Length mm", color = "Species")
+  labs(x = "Bill Length in mm", y = "Filpper Length in mm", color = "Species")
 
 ggsave("scatter_plot.pdf", height = 4, width = 6)
+```
 ```
 
 
