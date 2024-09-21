@@ -71,11 +71,32 @@ ggplot(penguins_df, aes(x = bill_length_mm, y = flipper_length_mm)) +
 
 ggsave("scatter_plot.pdf", height = 4, width = 6)
 ```
-```
 
 
 
+## Problem 2
+
+**Create the data frame**
 ```{r}
-
+p2_df = tibble(
+  vec_rand = rnorm(10),
+  vec_logi = vec_rand > 0,
+  vec_char = c("a", "b", "c", "abc", "d", "e", "f", "def", "g", "h"),
+  vec_fact = factor(c("bad", "bad", "bad", "average", "average", "average", "good", "good", "good", "good"))
+)
+mean(pull(p2_df, vec_rand))
+mean(pull(p2_df, vec_logi))
+mean(pull(p2_df, vec_char))
+mean(pull(p2_df, vec_fact))
 ```
+**Change the non-numeric vectors to numeric, not showing the result**
+```{r, eval = FALSE}
+as.numeric(pull(p2_df, vec_logi))
+as.numeric(pull(p2_df, vec_char))
+as.numeric(pull(p2_df, vec_fact))
+```
+- The logic vector becomes `r as.numeric(pull(p2_df, vec_logi))` after changing to numeric because r converts 'FALSE' to 0 and 'TRUE' to 1. This explains why the mean of the logic vecotor is `r mean(pull(p2_df, vec_logi))`.
+- The character vector becomes `r as.numeric(pull(p2_df, vec_char))` after changing to numeric because as.numeric() will return NA's for characters as they do not have a numeric meaning. This explains why the mean of the character vector is `r mean(pull(p2_df, vec_char))`.
+- The factor vector also becomes `r as.numeric(pull(p2_df, vec_fact))` after changing to numeric because the level of the factors are converted to 1, 2, and 3 as there are 3 factors. When trying to take the mean, r returns `r mean(pull(p2_df, vec_fact))` because the mean() function can not be implied to factor vectors directly before converting to numeric. 
+
 
